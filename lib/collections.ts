@@ -1,5 +1,6 @@
 import { NEXT_REWRITTEN_PATH_HEADER } from "next/dist/client/components/app-router-headers";
 import { v4 as uuidv4 } from 'uuid';
+import { faker } from '@faker-js/faker';
 
 export interface Collection {
     id: string;
@@ -30,6 +31,7 @@ export function addCollection(
         price,
     };
     collections[newId] = newCollection;
+    return newCollection
 }
 
 export function updateCollection(id: string, collection: Collection) {
@@ -49,4 +51,16 @@ export function deleteCollection(id: string) {
     return true;
 }
 
+function generateMockData() {
+    const count = faker.number.int({min: 10, max: 20});
+    for (let i = 0; i < count; i++) {
+        addCollection(
+            faker.commerce.product(),
+            faker.lorem.sentence(),
+            faker.number.int({min: 20, max: 200}),
+            faker.number.int({min: 1, max:100})
+        )
+    }
+}
 
+generateMockData();
