@@ -45,7 +45,7 @@ export default function Home() {
   };
 
   const handleDelete = async (id: string) => {
-    await fetch(`/api/collections?id=${id}`, { method: 'DELETE' });
+    await fetch(`/api/collections/${id}`, { method: 'DELETE' });
     fetchCollections();
   };
 
@@ -97,6 +97,13 @@ export default function Home() {
           {collections.map((collection) => (
             <li key={collection.id} className="mb-2 tracking-[-.01em]">
               {collection.id} -- {collection.name}
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <button
+                onClick={() => handleDelete(collection.id)}
+                className="text-red-500 hover:underline text-sm"
+              >
+                Delete
+              </button>
             </li>
           ))}
         </ul>

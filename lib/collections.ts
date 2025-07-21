@@ -52,7 +52,7 @@ export function deleteCollection(id: string) {
 }
 
 function generateMockData() {
-    const count = faker.number.int({min: 10, max: 20});
+    const count = faker.number.int({min: 100, max: 110});
     for (let i = 0; i < count; i++) {
         addCollection(
             faker.commerce.product(),
