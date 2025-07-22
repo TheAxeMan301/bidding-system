@@ -17,7 +17,8 @@ export async function DELETE(
     _: Request,
     { params }: { params: { id: string }}
 ) {
-    const success: boolean = deleteCollection(params.id);
+    const { id } = await params;
+    const success: boolean = deleteCollection(id);
     if (!success) {
         return NextResponse.json({ error: "Not found"}, { status: 404 });
     }

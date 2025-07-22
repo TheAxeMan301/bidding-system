@@ -11,9 +11,10 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "Collection data required"}, { status: 400 });
     }
     const name: string = newCollection.name;
+    const owner_id: string = newCollection.owner_id;
     const description: string = newCollection.description;
     const stock: number = newCollection.stock;
     const price: number = newCollection.price;
-    const result = addCollection(name, description, stock, price);
+    const result = addCollection(name, owner_id, description, stock, price);
     return NextResponse.json(result, { status: 201 });
 }

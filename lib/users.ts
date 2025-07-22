@@ -34,15 +34,3 @@ export function addUser(
     users[newId] = newUser;
     return newUser
 }
-
-function generateMockData() {
-    const count = faker.number.int({min: 10, max: 20});
-    for (let i = 0; i < count; i++) {
-        addUser(
-            faker.person.firstName(),
-            faker.internet.email()
-        )
-    }
-}
-
-generateMockData();

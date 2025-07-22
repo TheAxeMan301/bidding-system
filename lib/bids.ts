@@ -2,8 +2,8 @@ import { NEXT_REWRITTEN_PATH_HEADER } from "next/dist/client/components/app-rout
 import { v4 as uuidv4 } from 'uuid';
 import { faker } from '@faker-js/faker';
 
-import { Collection, getCollections } from './collections'
-import { User, getUsers } from './users'
+import { Collection, getCollections, addCollection } from './collections'
+import { User, getUsers, addUser } from './users'
 
 export interface Bid {
     id: string;
@@ -55,6 +55,7 @@ export function deleteBid(id: string) {
 
 export function acceptBid(bid_id: string) {
     let accepted_bid = bids[bid_id];
+    const collection_id = accepted_bid.collection_id
     if (accepted_bid.collection_id !== collection_id) {
         return false;
     }
@@ -67,13 +68,40 @@ export function acceptBid(bid_id: string) {
     return true;
 }
 
-function generateMockData() {
+
+function generateMockUsers() {
+    const count = faker.number.int({min: 10, max: 20});
+    for (let i = 0; i < count; i++) {
+        addUser(
+            faker.person.firstName(),
+            faker.internet.email()
+        )
+    }
+}
+
+function generateMockCollections() {
+    const users = getUsers();
+    const count = faker.number.int({min: 100, max: 110});
+    for (let i = 0; i < count; i++) {
+        const user: User = faker.helpers.arrayElement(users);
+        addCollection(
+            faker.commerce.product(),
+            user.id,
+            faker.lorem.sentence(),
+            faker.number.int({min: 20, max: 200}),
+            faker.number.int({min: 1, max:100})
+        )
+    }
+}
+
+
+function generateMockBids() {
     const users = getUsers();
     const collections = getCollections();
     for (const collection of collections) {
         const count = faker.number.int({min: 10, max: 20});
         for (let i = 0; i < count; i++) {
-            const user = faker.helpers.arrayElement(users);
+            const user: User = faker.helpers.arrayElement(users);
             addBid(
                 collection.id,
                 user.id,
@@ -83,4 +111,6 @@ function generateMockData() {
     }
 }
 
-generateMockData();
+generateMockUsers();
+generateMockCollections();
+generateMockBids();

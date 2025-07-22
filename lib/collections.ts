@@ -2,9 +2,12 @@ import { NEXT_REWRITTEN_PATH_HEADER } from "next/dist/client/components/app-rout
 import { v4 as uuidv4 } from 'uuid';
 import { faker } from '@faker-js/faker';
 
+import { getUsers, User } from './users';
+
 export interface Collection {
     id: string;
     name: string;
+    owner_id: string;
     description: string;
     stock: number;
     price: number;
@@ -18,6 +21,7 @@ export function getCollections() {
 
 export function addCollection(
     name: string,
+    owner_id: string,
     description: string,
     stock: number,
     price: number,
@@ -26,6 +30,7 @@ export function addCollection(
     const newCollection: Collection = {
         id: newId,
         name,
+        owner_id,
         description,
         stock,
         price,
@@ -50,17 +55,3 @@ export function deleteCollection(id: string) {
     delete collections[id];
     return true;
 }
-
-function generateMockData() {
-    const count = faker.number.int({min: 100, max: 110});
-    for (let i = 0; i < count; i++) {
-        addCollection(
-            faker.commerce.product(),
-            faker.lorem.sentence(),
-            faker.number.int({min: 20, max: 200}),
-            faker.number.int({min: 1, max:100})
-        )
-    }
-}
-
-generateMockData();

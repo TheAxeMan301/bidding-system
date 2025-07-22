@@ -17,6 +17,7 @@ export async function DELETE(
     _: Request,
     { params }: { params: { id: string }}
 ) {
+    const { id } = await params;
     const success: boolean = deleteBid(params.id);
     if (!success) {
         return NextResponse.json({ error: "Not found"}, { status: 404 });
